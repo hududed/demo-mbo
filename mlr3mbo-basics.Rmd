@@ -1,10 +1,8 @@
 ---
 title: "mlr3mbo examples"
 author: "Hud Wahab"
-format:
-  html:
-    code-fold: true
-editor: visual
+output: html_notebook
+echo: 'https://github.com/hududed/demo-mbo/blob/main/mlr3mbo-basics.Rmd'
 ---
 
 ## Overview

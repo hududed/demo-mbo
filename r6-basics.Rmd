@@ -1,6 +1,7 @@
 ---
 title: "R6 basics for mlr3"
 output: html_notebook
+echo: 'https://github.com/hududed/demo-mbo/blob/main/r6-basics.Rmd'
 ---
 
 ## Why mlr3?

@@ -1,6 +1,7 @@
 ---
 title: "mlr3 basics"
 output: html_notebook
+echo: 'https://github.com/hududed/demo-mbo/blob/main/mlr3-basics.Rmd'
 ---
 
 ## Overview

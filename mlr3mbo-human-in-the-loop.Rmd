@@ -1,6 +1,8 @@
 ---
 title: "mlr3 human in the loop"
+author: "Hud Wahab"
 output: html_notebook
+echo: 'https://github.com/hududed/demo-mbo/blob/main/mlr3mbo-human-in-the-loop.Rmd' 
 ---
 
 # Why human-in-the-loop?
