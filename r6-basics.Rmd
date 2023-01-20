@@ -1,0 +1,72 @@
+---
+title: "R6 basics for mlr3"
+output: html_notebook
+---
+
+## Why mlr3?
+
+It uses R6, that addresses shortcomings of earlier OO implementations e.g. S3 used in `mlr`.
+
+## Quick R6 examples for beginners
+
+If you have done any object-oriented programming before, R6 should feel familiar.
+
+```{r}
+library(R6)
+
+Person <- R6Class("Person",
+  public = list(
+    name = NULL,
+    hair = NULL,
+    initialize = function(name = NA, hair = NA) {
+      self$name <-name
+      self$hair <- hair
+      self$greet()
+    },
+    set_hair = function(val){
+      self$hair <- val
+    },
+    greet = function(){
+      cat(paste0("Hi, my name is ", self$name, ".\n"))
+    }
+  )
+)
+```
+
+We instantiate the object with `$new()`. For example:
+
+```{r}
+hud <- Person$new("Hud", "black")
+hud
+```
+
+We can access the fields as such:
+
+```{r}
+hud$hair
+```
+
+And set the argument:
+
+```{r}
+hud$hair = "blonde"
+hud$hair
+```
+
+## Quick `data.table` examples
+
+Many `mlr3` functions return `data.table`s which can conveniently be subset or combined with other outputs.
+
+The interface is similar to `data.frame()`:
+
+```{r}
+library(data.table)
+dt = data.table(x = 1:6, y = rep(letters[1:3], each = 2))
+dt
+```
+
+`data.table`s can be used much like `data.frame`s, but they do provide additional functionality that makes complex operations easier. For example, data can be summarized by groups with the `[` operator:
+
+```{r}
+dt[, mean(x), by = "y"]
+```
