@@ -1,0 +1,139 @@
+---
+title: "mlr3 basics"
+output: html_notebook
+---
+
+## Overview
+
+![mlr3 building blocks](ml_abstraction.svg){#fig-resample}
+
+1.  Load data and creating tasks
+2.  Data processing
+3.  Creating learner objects
+4.  Creating models
+5.  Analysis
+
+## Loading data
+
+We will load the data `GOQ`from <https://github.com/aim-uwyo/lig-model-opt> using **mlr3**, and preview the table:
+
+```{r}
+library(data.table)
+library(mlr3)
+library(mlr3learners)
+library(mlr3extralearners)
+library(mlr3viz)
+d.goq <- subset(read.csv("GOQ.csv", stringsAsFactors = TRUE), select = -c(campaign, initial))
+head(d.goq, 5)
+```
+
+We see that we have a mixed-variable inputs. We can also summarize the data as such:
+
+```{r}
+summary(d.goq)
+```
+
+## Task
+
+Tasks are objects that contain the (usually tabular) data and additional meta-data that defines a machine learning problem. The meta-data contains, for example, the name of the target feature for supervised machine learning problems. This information is used automatically by operations that can be performed on a task so that, e.g. the user does not have to specify the prediction target every time a model is trained.
+
+Let's create our first task. Here we can define our inputs `backend` and objective `target`. This task specializes `Task` for regression problems. The target column is assumed to be numeric. The `task_type` is set to "regr".
+
+```{r}
+task_goq = TaskRegr$new(id = "GOQ", backend = d.goq, target = "target")
+task_goq
+```
+
+We can also define this task with `as_task_regr`, which converts the data object to a regression task `TaskRegr` :
+
+```{r}
+as_task_regr(d.goq, target="target")
+```
+
+## Learner
+
+Once we have the data loaded and a task defined. We can create a `Learner` object from the data.
+
+Learners encapsulate methods to train a model and make predictions using it given a `Task` and provide meta-information about the learners. The base class of each learner is `Learner`.
+
+What learners are there? let's have a look at what is inside the `mlr_learners` dictionary.
+
+```{r}
+mlr_learners
+# as.data.table(mlr_learners)[task_type=="regr"]
+
+```
+
+As we see there's about 120 different learner objects. Let's dive in one of them:
+
+```{r}
+# lrn_goq = lrn("regr.ranger")
+lrn_goq = lrn("regr.ranger", max.depth=1)
+# ?mlr_learners_regr.ranger
+lrn_goq
+```
+
+So it allows various feature and predict types, and for convenience can allow weights or helpers to calculate feature importance, Out-of-bag errors, etc. Great!
+
+What you might have caught is that we have also made the `Learner` object that we will train using random forest!
+
+However, note that the `Model` is still empty - this means we have not trained our model yet!
+
+![Overview of the different stages of a learner](learner.svg){#fig-learner}
+
+All learners work in two stages:
+
+*Training*: The training task (features and target data) is passed to the learner's `$train()` function which trains and stores a model, i.e. the learned relationship of the features to the target.\
+*Prediction*: The new data, usually a different partition of the original dataset, is passed to the `$predict()` method of the trained learner. The model trained in the first step is used to predict the target values, e.g. the numerical value for regression problems.
+
+Note, a learner that has not been trained cannot make predictions and will throw an error if `$predict()` is called on it.
+
+## Training the learner, building the model
+
+We train the model by giving a task to the learner. The `mlr3::partition()` function randomly splits the task into two disjoint sets: a training set (67% of the total data, the default) and a test set (33% of the total data, the data not part of the training set). We learn a regression tree by calling the `$train()` method of the learner, specifying the task and the part of it to use for training (`splits$train`). This operation adds the learned model to the existing `mlr3::Learner` object. We can now access the stored model via the field `$model`.
+
+```{r}
+set.seed(12)
+splits = partition(task_goq)
+splits
+```
+
+```{r}
+set.seed(12)
+lrn_goq$train(task_goq, splits$train)
+lrn_goq$model
+```
+
+The results are not that great. The field `param_set` stores a description of the hyperparameters the learner has, their ranges, defaults, and current values:
+
+```{r}
+lrn_goq$param_set
+```
+
+The set of current hyperparameter values is stored in the values field of the `param_set` field. You can access and change the current hyperparameter values by accessing this field, it is a named list:
+
+```{r}
+set.seed(12)
+lrn_goq$param_set$values = list(max.depth=5, splitrule = "extratrees", num.random.splits=5)
+lrn_goq$param_set$values
+```
+
+Now lets retrain the model.
+
+```{r}
+lrn_goq$train(task_goq, splits$train)
+lrn_goq$model
+```
+
+Now we see that the model has been trained using random forest `ranger`, and the results are slightly improved. Technically we can already predict something! Lets have a look:
+
+```{r}
+preds = lrn_goq$predict(task_goq, splits$test)
+preds
+```
+
+## Simple Analysis
+
+```{r}
+autoplot(preds)
+```
