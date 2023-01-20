@@ -10,7 +10,7 @@ Content:
 2. [`mlr3` basics](mlr3-basics.Rmd)
 3. [`mlr3mbo` basics](mlr3mbo-basics.Rmd)
 4. [`mlr3mbo` human-in-the-loop](mlr3mbo-human-in-the-loop.Rmd)
-5. [`mlr3-benchmarking`](mlr-benchmarking.Rmd)
+5. [`mlr3-benchmarking`](mlr3-benchmarking.Rmd)
 
 If you decide to use the physical experiment data `GOQ.csv`, `PI.csv` or `GOPI.csv` for benchmarking or accelerated materials discovery purposes, be sure to cite:
 ```
