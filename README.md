@@ -10,3 +10,19 @@ Content:
 2. [`mlr3` basics](mlr3-basics.Rmd)
 3. [`mlr3mbo` basics](mlr3mbo-basics.Rmd)
 4. [`mlr3mbo` human-in-the-loop](mlr3mbo-human-in-the-loop.Rmd)
+
+If you decide to use the data `GOQ.csv`, `PI.csv` or `GOPI.csv`, be sure to cite:
+```
+@article{wahab2020lig,
+   author = {Wahab, Hud and Jain, Vivek and Tyrrell, Alexander Scott and Seas, Michael Alan and Kotthoff, Lars and Johnson, Patrick Alfred},
+   title = {Machine-learning-assisted fabrication: Bayesian optimization of laser-induced graphene patterning using in-situ Raman analysis},
+   journal = {Carbon},
+   volume = {167},
+   pages = {609-619},
+   ISSN = {0008-6223},
+   DOI = {https://doi.org/10.1016/j.carbon.2020.05.087},
+   url = {http://www.sciencedirect.com/science/article/pii/S0008622320305285},
+   year = {2020},
+   type = {Journal Article}
+}
+```
