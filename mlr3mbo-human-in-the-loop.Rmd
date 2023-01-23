@@ -22,7 +22,7 @@ Let's reload our materials science data `GOQ` from <https://github.com/aim-uwyo/
 
 ![Schematic of laser-induced graphene experiment](graphical_abs.png){#fig-resample}
 
-This experiment optimizes the laser and gas parameters to manufacture high-quality laser-induced graphene, by maximizing the `target` value. Further details refer to [our paper (Wahab et al. 2020)](https://www.sciencedirect.com/science/article/pii/S0008622320305285) - note however that `mlrMBO` was used in that publication.
+This experiment optimizes the laser and gas parameters to manufacture high-quality laser-induced graphene, by maximizing the `target` value. Further details refer to our [recent publication](https://ebooks.iospress.nl/volumearticle/60357) - note however that `mlrMBO` was used in that publication.
 
 Let's create our initial data but start with 9 initial data points, sampled equally across different types of gas:
 
@@ -88,7 +88,7 @@ candidate = acq_optimizer$optimize()
 candidate
 ```
 
-This is the next parameters that we should run in our experiment! If we chose to evaluate this point, the `target` can then be updated - here, we arbritrarily input the value `target = 3`.
+This is the next parameters that we should run in our experiment! If we chose to evaluate this point, the `target` can then be updated - here, we arbitrarily input the value `target = 3`.
 
 ```{r}
 data_new = data.table(power = 107, time = 15257, gas = 'Nitrogen', pressure = 35, target = 3)
