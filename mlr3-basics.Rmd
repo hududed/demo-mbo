@@ -5,6 +5,10 @@ output: html_notebook
 echo: 'https://github.com/hududed/demo-mbo/blob/main/mlr3-basics.Rmd'
 ---
 
+```{r setup, include=FALSE} 
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+```
+
 ## Overview
 
 ![mlr3 building blocks](ml_abstraction.svg){#fig-resample}
