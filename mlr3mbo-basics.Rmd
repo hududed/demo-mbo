@@ -5,6 +5,11 @@ output: html_notebook
 echo: 'https://github.com/hududed/demo-mbo/blob/main/mlr3mbo-basics.Rmd'
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+```
+
+
 ## Overview
 
 ![mbo schematic](mbo_schematic.png){#fig-resample}
@@ -34,6 +39,9 @@ To get an overview of readily available loop_functions, the following dictionary
 
 ```{r}
 library(mlr3mbo)
+library(mlr3tuning)
+library(mlr3)
+library(paradox)
 as.data.table(mlr_loop_functions)
 ```
 
@@ -49,6 +57,7 @@ As a learner, any `LearnerRegr` from `mlr3` can be used, however, most acquisiti
 A `SurrogateLearner` can be constructed via:
 
 ```{r}
+library(mlr3learners)
 surrogate = srlrn(lrn("regr.ranger"))
 surrogate$model
 ```

@@ -20,7 +20,7 @@ library(scales)
 
 library(mlr3)
 library(mlr3learners)
-library(mlr3extralearners)
+# library(mlr3extralearners)
 library(mlr3viz)
 library(mlr3pipelines)
 ```
@@ -38,7 +38,7 @@ learners = list(lrn("regr.featureless"),
                 lrn("regr.lm"),
                 lrn("regr.ranger"),
                 lrn("regr.km", nugget.stability = 1e-8, covtype = "powexp"),
-                lrn("regr.ksvm"),
+                lrn("regr.svm"),
                 lrn("regr.rpart"))
 ```
 

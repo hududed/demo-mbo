@@ -9,4 +9,4 @@ RUN apt-get update -qq && \
   rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
  
 COPY ./* /home/rstudio/
-RUN Rscript -e "install.packages(c('rmarkdown','mlr3','mlr3mbo','mlr3verse','mlr3extralearners','ranger','DiceKriging','nloptr'));"
+RUN Rscript -e "install.packages(c('e1071','remotes','rmarkdown','mlr3','mlr3mbo','mlr3verse','mlr3learners','mlr3extralearners','ranger','DiceKriging','nloptr','dplyr'));"

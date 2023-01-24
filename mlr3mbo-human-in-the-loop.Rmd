@@ -14,6 +14,9 @@ library(mlr3mbo)
 library(bbotk)
 library(data.table)
 library(dplyr)
+library(mlr3tuning)
+library(mlr3)
+library(paradox)
 
 set.seed(42)
 ```
@@ -60,6 +63,7 @@ archive
 Now we can setup the building blocks `surrogate`, `acq_function` and `acq_optimizer` as before. For defaults, see `?mbo_defaults`.
 
 ```{r}
+library(mlr3learners)
 surrogate = srlrn(lrn("regr.ranger"), archive = archive)
 surrogate
 ```
