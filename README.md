@@ -4,6 +4,15 @@ This is a collection of short demo notebooks for using human-in-the-loop `mlr3mb
 Some prior knowledge of R is required to follow along the notebook.   
 The interested coder can refer to the [mlr3book](https://mlr3book.mlr-org.com/) for detailed explanations and examples.
 
+1/24/2023
+To follow along with these notebooks, a `docker` container is prepared with `Rstudio` built-in with all the necessary libraries.
+This container will run `Rstudio` IDE locally on your web browser:
+
+1. Install and setup [docker](https://docs.docker.com/get-docker/)
+2. In the terminal, `docker run -d -p 8787:8787 PASSWORD=<YOUR_PASS> hudwahab/demo-mbo:latest`
+3. On the web browser, `http://localhost:8787/`
+4. Login user: `rstudio`, pass: `<YOUR_PASS>`
+
 Content:
 
 1.  [`R6` basics](r6-basics.Rmd)
