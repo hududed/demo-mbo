@@ -1,5 +1,6 @@
 ---
 title: "mlr3 basics"
+author: "Hud Wahab"
 output: html_notebook
 echo: 'https://github.com/hududed/demo-mbo/blob/main/mlr3-basics.Rmd'
 ---
@@ -22,7 +23,6 @@ We will load the data `GOQ`from <https://github.com/aim-uwyo/lig-model-opt> usin
 library(data.table)
 library(mlr3)
 library(mlr3learners)
-library(mlr3extralearners)
 library(mlr3viz)
 d.goq <- subset(read.csv("GOQ.csv", stringsAsFactors = TRUE), select = -c(campaign, initial))
 head(d.goq, 5)
