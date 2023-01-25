@@ -180,6 +180,10 @@ The bars start in loss (here RMSE loss) for the selected data and end in a loss 
 
 ### Partial Dependence
 
+Once we know which variables are most important, we can use [Partial Dependence Plots](https://ema.drwhy.ai/partialDependenceProfiles.html) to show how the model, on average, changes with changes in selected variables.
+
+The `DALEX::model_profile()` function calculates the partial dependence profiles. Again, the result of the explanation can be model_profile with the generic function `plot()`.
+
 ```{r}
 ranger_profiles = model_profile(ranger_exp)
 ranger_profiles
