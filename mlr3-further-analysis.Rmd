@@ -1,0 +1,115 @@
+---
+title: "mlr3-analysis"
+author: "Hud Wahab"
+output: html_document
+date: "2023-01-25"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+```
+
+```{r}
+library(data.table)
+library(mlr3)
+library(mlr3learners)
+library(mlr3viz)
+
+d.goq <- subset(read.csv("GOQ.csv", stringsAsFactors = TRUE), select = -c(campaign, initial))
+head(d.goq, 5)
+d.pi <- subset(read.csv("PI.csv", stringsAsFactors = TRUE), select = -c(campaign, initial))
+head(d.goq, 5)
+d.gopi <- subset(read.csv("GOPI.csv", stringsAsFactors = TRUE), select = -c(campaign, initial))
+head(d.goq, 5)
+
+```
+
+```{r}
+task_goq = TaskRegr$new(id = "GOQ", backend = d.goq, target = "target")
+task_pi = TaskRegr$new(id = "PI", backend = d.pi, target = "target")
+task_gopi = TaskRegr$new(id = "GOPI", backend = d.gopi, target = "target")
+```
+
+```{r}
+lrn_goq = lrn("regr.ranger")
+lrn_pi = lrn("regr.ranger")
+lrn_gopi = lrn("regr.ranger")
+```
+
+```{r}
+set.seed(12)
+splits_goq = partition(task_goq)
+splits_pi = partition(task_pi)
+splits_gopi = partition(task_gopi)
+lrn_goq$train(task_goq, splits_goq$train)
+lrn_pi$train(task_pi, splits_pi$train)
+lrn_gopi$train(task_gopi, splits_gopi$train)
+```
+
+## What more can we learn from the model?
+
+Predictive models in R have different internal structures. To be able to analyse them systematically, we use a wrapper to provide a consistent interface for accessing the model. For models created with `mlr3`, we use the `DALEXtra::explain_mlr3()` function to parameterise the model created by the various frameworks (e.g. `explain_scikitlearn` or `explain_keras`, `?explain_<tab>` for further frameworks):
+
+```{r}
+library("DALEX")
+library("DALEXtra")
+
+explainer_goq = DALEXtra::explain_mlr3(lrn_goq,
+  data = d.goq[splits_goq$test, ],
+  y = d.goq[splits_goq$test, "target"],
+  label = "Random Forest GOQ",
+  colorize = FALSE)
+
+explainer_pi = DALEXtra::explain_mlr3(lrn_pi,
+  data = d.pi[splits_pi$test, ],
+  y = d.pi[splits$test, "target"],
+  label = "Random Forest PI",
+  colorize = FALSE)
+
+explainer_gopi = DALEXtra::explain_mlr3(lrn_gopi,
+  data = d.gopi[splits_gopi$test, ],
+  y = d.gopi[splits_gopi$test, "target"],
+  label = "Random Forest GOPI",
+  colorize = FALSE)
+```
+
+### Permutation Variable Importance
+
+A popular technique for assessing variable importance in a model-agnostic manner is the variable importance. It is based on the difference (or ratio) in the selected loss function after the selected variable or set of variables has been permuted. Further reading in the [Variable-importance Measures](https://ema.drwhy.ai/featureImportance.html) chapter.
+
+The `DALEX::model_parts()` function calculates the importance of variables and its results can be visualized with the generic `plot()` function.
+
+```{r}
+effect_goq = model_parts(explainer_goq)
+effect_pi = model_parts(explainer_pi)
+effect_gopi = model_parts(explainer_gopi)
+head(ranger_effect_goq)
+```
+
+```{r}
+plot(effect_goq, effect_pi, effect_gopi, show_boxplots = FALSE) 
+```
+
+The bars start in loss (here RMSE loss) for the selected data and end in a loss for the data after the permutation of the selected variable. The more important the variable, the more the model will lose after its permutation.
+
+### Partial Dependence
+
+Once we know which variables are most important, we can use [Partial Dependence Plots](https://ema.drwhy.ai/partialDependenceProfiles.html) to show how the model, on average, changes with changes in selected variables.
+
+The `DALEX::model_profile()` function calculates the partial dependence profiles. Again, the result of the explanation can be model_profile with the generic function `plot()`.
+
+```{r}
+mp_goq = model_profile(explainer_goq)
+mp_pi = model_profile(explainer_pi)
+mp_gopi = model_profile(explainer_gopi)
+mp_goq
+```
+
+```{r}
+library(ggplot2)
+plot(mp_goq, mp_pi, mp_gopi) + 
+  theme(legend.position = "top") + 
+  ggtitle("Partial Dependence for GOQ, PI, GOPI","")
+```
+
+Further analysis can be found in the mlr3book [model interpretations](https://mlr3book.mlr-org.com/interpretation.html) section.
