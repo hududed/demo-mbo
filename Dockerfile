@@ -8,5 +8,11 @@ RUN apt-get update -qq && \
     apt-get purge && \
   rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
  
-COPY ./* /home/rstudio/
+COPY *.Rmd /home/rstudio/
+COPY *.csv /home/rstudio/
+COPY *.svg /home/rstudio/
+COPY *.png /home/rstudio/
+COPY README.md /home/rstudio/
+COPY .Rprofile /home/rstudio/
+
 RUN Rscript -e "install.packages(c('e1071','remotes','rmarkdown','mlr3','mlr3mbo','mlr3verse','mlr3learners','mlr3extralearners','ranger','DiceKriging','nloptr','dplyr'));"
