@@ -186,6 +186,7 @@ ranger_profiles
 ```
 
 ```{r}
+library(ggplot2)
 plot(ranger_profiles) + 
   theme(legend.position = "top") + 
   ggtitle("Partial Dependence for GOQ","")
