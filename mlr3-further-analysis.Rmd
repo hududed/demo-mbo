@@ -54,6 +54,7 @@ Predictive models in R have different internal structures. To be able to analyse
 library("DALEX")
 library("DALEXtra")
 
+set.seed(12)
 explainer_goq = DALEXtra::explain_mlr3(lrn_goq,
   data = d.goq[splits_goq$test, ],
   y = d.goq[splits_goq$test, "target"],
@@ -62,7 +63,7 @@ explainer_goq = DALEXtra::explain_mlr3(lrn_goq,
 
 explainer_pi = DALEXtra::explain_mlr3(lrn_pi,
   data = d.pi[splits_pi$test, ],
-  y = d.pi[splits$test, "target"],
+  y = d.pi[splits_pi$test, "target"],
   label = "Random Forest PI",
   colorize = FALSE)
 
@@ -80,10 +81,11 @@ A popular technique for assessing variable importance in a model-agnostic manner
 The `DALEX::model_parts()` function calculates the importance of variables and its results can be visualized with the generic `plot()` function.
 
 ```{r}
+set.seed(12)
 effect_goq = model_parts(explainer_goq)
 effect_pi = model_parts(explainer_pi)
 effect_gopi = model_parts(explainer_gopi)
-head(ranger_effect_goq)
+head(effect_goq)
 ```
 
 ```{r}
@@ -99,6 +101,7 @@ Once we know which variables are most important, we can use [Partial Dependence 
 The `DALEX::model_profile()` function calculates the partial dependence profiles. Again, the result of the explanation can be model_profile with the generic function `plot()`.
 
 ```{r}
+set.seed(12)
 mp_goq = model_profile(explainer_goq)
 mp_pi = model_profile(explainer_pi)
 mp_gopi = model_profile(explainer_gopi)
