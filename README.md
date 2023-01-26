@@ -9,7 +9,7 @@ To follow along with these notebooks, you have two options:
 1. Clone this repo locally and run them on your own R IDE of choice, e.g. `Rstudio`
 (R version 4.2.2 works fine with `mlr3`, libraries must be manually installed)
 2. Run a `docker` container prepared with `Rstudio` built-in with all the necessary libraries.
-3. Run [colab notebook](https://colab.research.google.com/drive/1n5X1u3renfF2JEAwo9SYLu4gzhhV3Tht?usp=sharing)
+3. Run [colab notebook](https://colab.research.google.com/drive/1gG3RCvIgrvD5ntH020SfjVsoPmJREX9B?usp=sharing)
 
 This container will run `Rstudio` IDE locally on your web browser. To run the container:
 
