@@ -17,7 +17,7 @@ This container will run `Rstudio` IDE locally on your web browser. To run the co
 2. In the terminal, 
   ```
   sudo service docker start
-  docker run -d -p 8787:8787 PASSWORD=<YOUR_PASS> hudwahab/demo-mbo:latest
+  docker run -d -p 8787:8787 -e PASSWORD=<YOUR_PASS> hudwahab/demo-mbo:latest
   ```
 4. On the web browser, `http://localhost:8787/`
 5. Login user: `rstudio`, pass: `<YOUR_PASS>`
