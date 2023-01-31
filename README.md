@@ -4,27 +4,15 @@ This is a collection of short demo notebooks for using human-in-the-loop `mlr3mb
 Some prior knowledge of R is required to follow along the notebook.   
 The interested coder can refer to the [mlr3book](https://mlr3book.mlr-org.com/) for detailed explanations and examples.
 
-1/24/2023  
+1/31/2023  
 To follow along with these notebooks, you have several options:
-1. Clone this repo locally and run them on your own R IDE of choice, e.g. `Rstudio`
+1. Run [colab notebook](https://colab.research.google.com/drive/1gG3RCvIgrvD5ntH020SfjVsoPmJREX9B?usp=share_link).
+2. Clone this repo locally and run them on your own R IDE of choice, e.g. `Rstudio`
 (R version 4.2.2 works fine with `mlr3`, libraries must be manually installed)
-2. Run a `docker` container prepared with `Rstudio` built-in with all the necessary libraries.
-3. Run [colab notebook](https://colab.research.google.com/drive/1gG3RCvIgrvD5ntH020SfjVsoPmJREX9B?usp=sharing). Pre-installed libraries are found [here](https://drive.google.com/file/d/1YehRuZhhvuOS2SOIOv8Tgu4qBlkG9eLN/view?usp=sharing)  
-
-This container will run `Rstudio` IDE locally on your web browser. To run the container:
-
-1. Install and setup [docker](https://docs.docker.com/get-docker/)
-2. In the terminal, 
-  ```
-  sudo service docker start
-  docker run -d -p 8787:8787 -e PASSWORD=<YOUR_PASS> hudwahab/demo-mbo:latest
-  ```
-4. On the web browser, `http://localhost:8787/`
-5. Login user: `rstudio`, pass: `<YOUR_PASS>`
 
 Content:
 
-1.  [`R6` basics](r6-basics.Rmd)
+1. [`R6` basics](r6-basics.Rmd)
 2. [`mlr3` basics](mlr3-basics.Rmd)
 3. [`mlr3mbo` basics](mlr3mbo-basics.Rmd)
 4. [`mlr3mbo` human-in-the-loop](mlr3mbo-human-in-the-loop.Rmd)
